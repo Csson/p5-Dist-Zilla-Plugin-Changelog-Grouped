@@ -39,7 +39,7 @@ sub munge_files {
     my $self = shift;
 
     my($file) = grep { $_->name eq $self->change_file } @{ $self->zilla->files };
-warn 'File munger ' x 5;
+
     my $changes = CPAN::Changes->load_string($file->content, next_token => qr/\{\{\$NEXT\}\}/);
     my $next = (reverse $changes->releases)[0];
     return if !defined $next;
@@ -61,9 +61,6 @@ sub after_release {
     $self->log_debug(['Cleaning up %s on disk', $self->change_file]);
 
     path($self->change_file)->spew($changes->serialize);
-warn '>------->';
-warn path($self->change_file)->slurp;
-warn '<-------<';
 }
 
 __PACKAGE__->meta->make_immutable;

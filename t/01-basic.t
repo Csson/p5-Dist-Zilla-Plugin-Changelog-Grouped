@@ -13,7 +13,10 @@ my $ini = make_ini(groups => 'Api, Documentation, Empty');
 my $tzil = make_tzil($ini, $changes);
 
 $tzil->chrome->logger->set_debug(1);
-$tzil->release;
+{
+    no warnings 'uninitialized' if $] <= 5.012000;
+    $tzil->release;
+}
 
 like $tzil->slurp_file('source/lib/DZT/ChangelogGrouped.pm'), qr{0\.0003}, 'Version changed in .pm';
 like $tzil->slurp_file('source/Changes'), qr{0\.0002}, 'Version change in Changes';
