@@ -34,6 +34,13 @@ prereqs:
 plugins:
   - +config: Author::CSSON
 
+  # Temporarily. Remove once ::Config::AUthor::CSSON does this
+  - +replace_plugin: RewriteVersion
+    +with: RewriteVersion::Transitional
+
+  - +replace_plugin: BumpVersionAfterRelease
+    +with: BumpVersionAfterRelease::Transitional
+
 ---
 doctype: weaver
 

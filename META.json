@@ -33,7 +33,7 @@
          "requires" : {
             "Dist::Iller" : "0.1401",
             "Dist::Iller::Config::Author::CSSON" : "0.0300",
-            "Dist::Zilla::Plugin::BumpVersionAfterRelease" : "0",
+            "Dist::Zilla::Plugin::BumpVersionAfterRelease::Transitional" : "0",
             "Dist::Zilla::Plugin::CheckChangesHasContent" : "0",
             "Dist::Zilla::Plugin::Clean" : "0",
             "Dist::Zilla::Plugin::ConfirmRelease" : "0",
@@ -64,7 +64,7 @@
             "Dist::Zilla::Plugin::Prereqs::Plugins" : "0",
             "Dist::Zilla::Plugin::Readme" : "0",
             "Dist::Zilla::Plugin::ReadmeAnyFromPod" : "0",
-            "Dist::Zilla::Plugin::RewriteVersion" : "0",
+            "Dist::Zilla::Plugin::RewriteVersion::Transitional" : "0",
             "Dist::Zilla::Plugin::RunExtraTests" : "0",
             "Dist::Zilla::Plugin::ShareDir" : "0",
             "Dist::Zilla::Plugin::Test::Compile" : "0",
