@@ -13,8 +13,12 @@ my $ini = make_ini(groups => 'Api, Documentation, Empty');
 my $tzil = make_tzil($ini, $changes);
 
 $tzil->chrome->logger->set_debug(1);
-{
-    no warnings 'uninitialized' if $] <= 5.012000;
+
+if($] <= 5.012000) {
+    no warnings 'uninitialized';
+    $tzil->release;
+}
+else {
     $tzil->release;
 }
 
