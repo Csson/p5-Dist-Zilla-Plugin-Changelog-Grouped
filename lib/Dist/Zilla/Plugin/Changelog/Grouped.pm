@@ -61,7 +61,6 @@ sub after_release {
     $self->log_debug(['Cleaning up %s on disk', $self->change_file]);
 
     path($self->change_file)->spew($changes->serialize);
-warn "After release change file: <@{[ $self->change_file->realpath ]}>";
 warn '>------->';
 warn path($self->change_file)->slurp;
 warn '<-------<';
