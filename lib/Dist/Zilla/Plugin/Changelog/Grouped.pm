@@ -39,7 +39,7 @@ sub munge_files {
     my $self = shift;
 
     my($file) = grep { $_->name eq $self->change_file } @{ $self->zilla->files };
-
+warn 'File munger ' x 5;
     my $changes = CPAN::Changes->load_string($file->content, next_token => qr/\{\{\$NEXT\}\}/);
     my $next = (reverse $changes->releases)[0];
     return if !defined $next;
@@ -53,6 +53,7 @@ sub munge_files {
 sub after_release {
     my $self = shift;
 
+warn 'After releaser ' x 5;
     my $changes = CPAN::Changes->load($self->change_file, next_token => qr/\{\{\$NEXT\}\}/);
     $changes->delete_empty_groups;
     my($next) = reverse $changes->releases;
