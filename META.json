@@ -32,7 +32,7 @@
       "develop" : {
          "requires" : {
             "Dist::Iller" : "0.1401",
-            "Dist::Iller::Config::Author::CSSON" : "0.0301",
+            "Dist::Iller::Config::Author::CSSON" : "0.0300",
             "Dist::Zilla::Plugin::BumpVersionAfterRelease" : "0",
             "Dist::Zilla::Plugin::CheckChangesHasContent" : "0",
             "Dist::Zilla::Plugin::Clean" : "0",
