@@ -1,0 +1,7 @@
+/Dist-Zilla-Plugin-Changelog-Grouped-*
+/.build
+/_build*
+/Build
+MYMETA.*
+!META.json
+/.prove
