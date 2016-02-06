@@ -53,7 +53,11 @@ warn 'File munger ' x 5;
 sub after_release {
     my $self = shift;
 
-warn 'After releaser ' x 5;
+warn 'After release change file: ' . $self->change_file;
+use Path::Tiny;
+warn '>------->';
+warn path($self->change_file)->spew;
+warn '<-------<';
     my $changes = CPAN::Changes->load($self->change_file, next_token => qr/\{\{\$NEXT\}\}/);
     $changes->delete_empty_groups;
     my($next) = reverse $changes->releases;
