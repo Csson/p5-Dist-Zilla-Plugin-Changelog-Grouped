@@ -8,6 +8,11 @@ use syntax 'qi';
 use Test::DZil;
 use Dist::Zilla::Plugin::Changelog::Grouped;
 
+$SIG{'__WARN__'} = sub {
+    diag 'Caught warning: ' . $_[0];
+    warn shift unless caller eq 'CPAN::Changes';
+};
+
 my $changes = changer('Documentation', 'A change');
 my $ini = make_ini(groups => 'Api, Documentation, Empty');
 my $tzil = make_tzil($ini, $changes);
