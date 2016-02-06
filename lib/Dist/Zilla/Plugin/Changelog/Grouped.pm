@@ -53,11 +53,6 @@ warn 'File munger ' x 5;
 sub after_release {
     my $self = shift;
 
-warn 'After release change file: ' . $self->change_file;
-use Path::Tiny;
-warn '>------->';
-warn path($self->change_file)->spew;
-warn '<-------<';
     my $changes = CPAN::Changes->load($self->change_file, next_token => qr/\{\{\$NEXT\}\}/);
     $changes->delete_empty_groups;
     my($next) = reverse $changes->releases;
@@ -66,6 +61,10 @@ warn '<-------<';
     $self->log_debug(['Cleaning up %s on disk', $self->change_file]);
 
     path($self->change_file)->spew($changes->serialize);
+warn "After release change file: <@{[ $self->change_file->realpath ]}>";
+warn '>------->';
+warn path($self->change_file)->slurp;
+warn '<-------<';
 }
 
 __PACKAGE__->meta->make_immutable;
