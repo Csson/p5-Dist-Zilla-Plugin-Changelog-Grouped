@@ -9,8 +9,12 @@ use Test::DZil;
 use Dist::Zilla::Plugin::Changelog::Grouped;
 
 $SIG{'__WARN__'} = sub {
-    diag 'Caught warning: ' . $_[0];
-    warn shift unless caller eq 'CPAN::Changes';
+    if(caller eq 'CPAN::Changes') {
+        diag 'Caught warning: ' . shift;
+    }
+    else {
+        warn shift;
+    }
 };
 
 my $changes = changer('Documentation', 'A change');
@@ -18,16 +22,7 @@ my $ini = make_ini(groups => 'Api, Documentation, Empty');
 my $tzil = make_tzil($ini, $changes);
 
 $tzil->chrome->logger->set_debug(1);
-diag $];
-if($] <= 5.012000) {
-    diag 'no uninit warnings';
-    no warnings 'uninitialized';
-    $tzil->release;
-}
-else {
-    diag 'init warnings';
-    $tzil->release;
-}
+$tzil->release;
 
 like $tzil->slurp_file('source/lib/DZT/ChangelogGrouped.pm'), qr{0\.0003}, 'Version changed in .pm';
 like $tzil->slurp_file('source/Changes'), qr{0\.0002}, 'Version change in Changes';
