@@ -9,7 +9,8 @@ use Test::DZil;
 use Dist::Zilla::Plugin::Changelog::Grouped;
 
 $SIG{'__WARN__'} = sub {
-    if(caller eq 'CPAN::Changes') {
+    # Travis has an uninitialized warning in CPAN::Changes on 5.10
+    if($] < 5.012000 && caller eq 'CPAN::Changes') {
         diag 'Caught warning: ' . shift;
     }
     else {
