@@ -17,7 +17,7 @@ $tzil->release;
 
 like $tzil->slurp_file('source/lib/DZT/ChangelogGrouped.pm'), qr{0\.0003}, 'Version changed in .pm';
 like $tzil->slurp_file('source/Changes'), qr{0\.0002}, 'Version change in Changes';
-like $tzil->slurp_file('source/Changes'), qr{\{\{\$NEXT\}\}\v\s+\[Api\][\v\s]+\[Documentation\]}ms, 'Change groups generated';
+like $tzil->slurp_file('source/Changes'), qr{\{\{\$NEXT\}\}[\r\n]\s+\[Api\][\n\r\s]+\[Documentation\]}ms, 'Change groups generated';
 unlike $tzil->slurp_file('build/Changes'), qr{\[Empty\]}, 'Empty groups removed in built Changes';
 
 done_testing;

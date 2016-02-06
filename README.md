@@ -20,12 +20,11 @@ Version 0.0100, released 2016-02-06.
 This plugin does two things:
 
 - During the build phase it removes empty groups from the changelog.
-- After a release it sets up the configured groups in the dist root changelog for the next version.
+- After a release it adds the configured groups to the changelog under `{{$NEXT}}`.
 
 # ACKNOWLEDGMENTS
 
-This plugin is based on [Dist::Zilla::Plugin::NextVersion::Semantic](https://metacpan.org/pod/Dist::Zilla::Plugin::NextVersion::Semantic). The differences are that this plugin is not a VersionProvider and
-there is no semantic grouping of the change groups.
+This plugin is based on parts of [Dist::Zilla::Plugin::NextVersion::Semantic](https://metacpan.org/pod/Dist::Zilla::Plugin::NextVersion::Semantic).
 
 # SOURCE
 
