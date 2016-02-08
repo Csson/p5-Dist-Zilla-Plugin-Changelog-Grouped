@@ -2,7 +2,7 @@
 
 Dist::Zilla::Plugin::NextRelease::Grouped - Simplify usage of a grouped changelog
 
-![Requires Perl 5.10.1+](https://img.shields.io/badge/perl-5.10.1+-brightgreen.svg) [![Travis status](https://api.travis-ci.org/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped.svg?branch=master)](https://travis-ci.org/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped) ![coverage 77.5%](https://img.shields.io/badge/coverage-77.5%-orange.svg)
+![Requires Perl 5.10.1+](https://img.shields.io/badge/perl-5.10.1+-brightgreen.svg) [![Travis status](https://api.travis-ci.org/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped.svg?branch=master)](https://travis-ci.org/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped) ![coverage 76.8%](https://img.shields.io/badge/coverage-76.8%-orange.svg)
 
 # VERSION
 
