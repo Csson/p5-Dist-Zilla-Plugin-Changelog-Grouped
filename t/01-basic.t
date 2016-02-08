@@ -6,7 +6,7 @@ use if $ENV{'AUTHOR_TESTING'}, 'Test::Warnings';
 use String::Cushion;
 use syntax 'qi';
 use Test::DZil;
-use Dist::Zilla::Plugin::Changelog::Grouped;
+use Dist::Zilla::Plugin::NextRelease::Grouped;
 
 $SIG{'__WARN__'} = sub {
     # Travis has an uninitialized warning in CPAN::Changes on 5.10
@@ -18,28 +18,80 @@ $SIG{'__WARN__'} = sub {
     }
 };
 
-my $changes = changer('Documentation', 'A change');
-my $ini = make_ini(groups => 'Api, Documentation, Empty');
-my $tzil = make_tzil($ini, $changes);
+{
+    package Dist::Zilla::Plugin::UploadToCPAN::Mock;
 
-$tzil->chrome->logger->set_debug(1);
-$tzil->release;
+    use Moose;
+    use namespace::autoclean;
+    with qw/Dist::Zilla::Role::Releaser/;
 
-like $tzil->slurp_file('source/lib/DZT/ChangelogGrouped.pm'), qr{0\.0003}, 'Version changed in .pm';
-like $tzil->slurp_file('source/Changes'), qr{0\.0002}, 'Version change in Changes';
-like $tzil->slurp_file('source/Changes'), qr{\{\{\$NEXT\}\}[\r\n]\s+\[Api\][\n\r\s]+\[Documentation\]}ms, 'Change groups generated';
-unlike $tzil->slurp_file('build/Changes'), qr{\[Empty\]}, 'Empty groups removed in built Changes';
+    sub cpanid { 'SOMEONESNAME' };
+    sub release { }
+
+    __PACKAGE__->meta->make_immutable;
+}
+
+subtest simple => sub {
+    my $changes = changer('Documentation', 'A change');
+    my $ini = make_ini({ groups => 'Api, Documentation, Empty' });
+    my $tzil = make_tzil($ini, $changes);
+
+    $tzil->chrome->logger->set_debug(1);
+    $tzil->release;
+
+    common_tests($tzil);
+};
+
+subtest trial => sub {
+    my $changes = changer('Documentation', 'A change');
+    my $ini = make_ini({ groups => 'Api, Documentation, Empty', format_note => '%{THIS IS TRIAL}T' });
+    local $ENV{'TRIAL'} = 1;
+    my $tzil = make_tzil($ini, $changes);
+
+    $tzil->chrome->logger->set_debug(1);
+    $tzil->release;
+
+    common_tests($tzil);
+    like $tzil->slurp_file('build/Changes'), qr{THIS IS TRIAL}, 'Trial release';
+};
+
+subtest pause_user => sub {
+    my $changes = changer('Documentation', 'A change');
+    my $ini = make_ini(
+        { groups => 'Api, Documentation, Empty', format_note => 'released by %P', format_date => '%{yyyy-MM-dd HH:mm:ss VVV}d' },
+        [ '%PAUSE' => { username => 'SOMEONESNAME', password => 'obladi'} ],
+    );
+    my $tzil = make_tzil($ini, $changes);
+
+    $tzil->chrome->logger->set_debug(1);
+    $tzil->release;
+
+    common_tests($tzil);
+    like $tzil->slurp_file('source/Changes'), qr{released by SOMEONESNAME}, 'Pause user in source Changes';
+    like $tzil->slurp_file('build/Changes'), qr{released by SOMEONESNAME}, 'Pause user in build Changes';
+};
 
 done_testing;
 
+sub common_tests {
+    my $tzil = shift;
+    like $tzil->slurp_file('source/lib/DZT/NextReleaseGrouped.pm'), qr{0\.0003}, 'Version changed in .pm';
+    like $tzil->slurp_file('build/Changes'), qr{0\.0002}, 'Version change in built Changes';
+    like $tzil->slurp_file('source/Changes'), qr{0\.0002}, 'Version change in source Changes';
+    like $tzil->slurp_file('source/Changes'), qr{\{\{\$NEXT\}\}[\r\n]\s+\[Api\][\n\r\s]+\[Documentation\]}ms, 'Change groups generated';
+    unlike $tzil->slurp_file('build/Changes'), qr{\[Empty\]}, 'Empty groups removed in built Changes';
+}
+
 sub make_ini {
-    return simple_ini({ version => undef }, qw/
-            GatherDir
-            FakeRelease
-            NextRelease
+    my $grouped_args = shift;
+    return simple_ini({ version => undef },
+          ['NextRelease::Grouped', $grouped_args ], qw/
             RewriteVersion
+            GatherDir
+            UploadToCPAN::Mock
             BumpVersionAfterRelease
-        /, ['Changelog::Grouped', { @_ } ],
+        /,
+            @_
     );
 }
 
@@ -75,3 +127,5 @@ sub changer {
          - First release
     };
 }
+
+

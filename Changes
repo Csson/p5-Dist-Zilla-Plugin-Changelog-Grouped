@@ -1,4 +1,17 @@
 Revision history for Dist-Zilla-Plugin-Changelog-Grouped
 
 {{$NEXT}}
+ [Breaking Changes]
+  - Attribute 'change_file' renamed to 'filename'.
+
+ [Enhancements]
+  - Make (almost) compatible with [NextRelease].
+
+ [Requirements]
+  - Add missing test prereq: Dist::Zilla::Plugin::RewriteVersion.
+
+ [Other Changes]
+  - Changed name from Dist::Zilla::Plugin::Changelog::Grouped.
+
+0.0100  2016-02-06 23:01:02 UTC
   - Initial release
