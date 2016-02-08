@@ -15,7 +15,6 @@ use Types::Standard qw/Str ArrayRef/;
 use Path::Tiny;
 use CPAN::Changes;
 use CPAN::Changes::Release;
-use List::Util qw/first/;
 use Safe::Isa qw/$_call_if_object/;
 
 use String::Formatter stringf => {
@@ -40,7 +39,7 @@ use String::Formatter stringf => {
         },
         P => sub {
             my $self = shift;
-            my $releaser = first { $_->can('cpanid') } @{ $self->zilla->plugins_with('-Releaser') };
+            my($releaser) = grep { $_->can('cpanid') } @{ $self->zilla->plugins_with('-Releaser') };
             $self->log_fatal(q{releaser doesn't provide cpanid, but %P used}) unless $releaser;
 
             return $releaser->cpanid;
