@@ -41,6 +41,8 @@ prereqs:
 plugins:
   - +config: Author::CSSON
 
+  - +remove_plugin: Changelog::Grouped
+
 ---
 doctype: weaver
 

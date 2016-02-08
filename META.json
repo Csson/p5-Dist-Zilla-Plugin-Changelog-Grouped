@@ -34,7 +34,6 @@
             "Dist::Iller" : "0.1402",
             "Dist::Iller::Config::Author::CSSON" : "0.0302",
             "Dist::Zilla::Plugin::BumpVersionAfterRelease::Transitional" : "0",
-            "Dist::Zilla::Plugin::Changelog::Grouped" : "0",
             "Dist::Zilla::Plugin::CheckChangesHasContent" : "0",
             "Dist::Zilla::Plugin::Clean" : "0",
             "Dist::Zilla::Plugin::ConfirmRelease" : "0",
