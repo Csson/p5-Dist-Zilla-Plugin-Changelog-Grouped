@@ -1,6 +1,10 @@
 Revision history for Dist-Zilla-Plugin-Changelog-Grouped
 
 {{$NEXT}}
+ [Documentation]
+ - Typo fix in attribute name.
+
+0.0101  2016-02-08 20:51:20 UTC
  [Breaking Changes]
   - Attribute 'change_file' renamed to 'filename'.
 

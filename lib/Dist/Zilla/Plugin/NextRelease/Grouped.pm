@@ -5,7 +5,7 @@ use warnings;
 package Dist::Zilla::Plugin::NextRelease::Grouped;
 
 # ABSTRACT: Simplify usage of a grouped changelog
-our $VERSION = '0.0101';
+our $VERSION = '0.0102';
 
 use Moose;
 use MooseX::AttributeShortcuts;
@@ -168,7 +168,7 @@ __END__
 =head1 SYNOPSIS
 
     [NextRelease::Grouped]
-    change_file = Changelog
+    filename = Changelog
     groups = Bug Fixes, Breaking Changes, Enhancements
     format_note = Released by %P
 
@@ -184,7 +184,7 @@ This plugin does two things:
 
 =begin :list
 
-= C<file_name>
+= C<filename>
 Default: C<Changes>
 
 The name of the changelog file.

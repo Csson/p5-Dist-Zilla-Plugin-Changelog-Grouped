@@ -41,11 +41,6 @@ prereqs:
 plugins:
   - +config: Author::CSSON
 
-  - +remove_plugin: Changelog::Grouped
-
-  - +replace_plugin: RewriteVersion::Transitional
-    +with: RewriteVersion::Transitional
-
 ---
 doctype: weaver
 
