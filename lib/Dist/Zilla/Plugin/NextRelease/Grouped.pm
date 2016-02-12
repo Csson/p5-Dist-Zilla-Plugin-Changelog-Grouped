@@ -11,8 +11,9 @@ use Moose;
 use MooseX::AttributeShortcuts;
 use namespace::autoclean;
 
-use Types::Standard qw/Str ArrayRef/;
+use Types::Standard qw/Str ArrayRef Bool/;
 use Path::Tiny;
+use List::Util qw/none/;
 use CPAN::Changes;
 use CPAN::Changes::Release;
 use Safe::Isa qw/$_call_if_object/;
@@ -28,7 +29,7 @@ use String::Formatter stringf => {
             require DateTime;
             DateTime->now->set_time_zone(shift->time_zone)->format_cldr(shift);
         },
-        t => sub { "\n" },
+        t => sub { "\t" },
         n => sub { "\n" },
         E => sub { shift->user_info('email') },
         U => sub { shift->user_info('name') },
@@ -93,6 +94,12 @@ has groups => (
         all_groups => 'elements',
     }
 );
+has auto_order => (
+    is => 'ro',
+    isa => Bool,
+    default => 0,
+);
+
 has _changes_after_munging => (
     is => 'rw',
     isa => Str,
@@ -126,12 +133,22 @@ sub munge_files {
     $next->version(header_formatter($self->format_version, $self));
     $next->date(header_formatter($self->format_date, $self));
     $next->note(header_formatter($self->format_note, $self));
-
-    $next->delete_group($_) for grep { !@{ $next->changes($_) } } $next->groups;
+    $next->delete_empty_groups;
 
     $self->log_debug(['Cleaning up %s in memory', $file->name]);
-    $file->content($changes->serialize);
-    $self->_changes_after_munging($changes->serialize);
+
+    my $sort_groups = sub {
+        my @custom_groups = grep { my $group = $_; none { $group eq $_ } $self->all_groups } @_;
+
+        return  map  { $_->name             }
+                grep { !$_->is_empty        }
+                map  { $next->get_group($_) }
+                @custom_groups, $self->all_groups;
+    };
+
+    my $content = $self->auto_order ? $changes->serialize : $changes->serialize(group_sort => $sort_groups);
+    $file->content($content);
+    $self->_changes_after_munging($content);
 }
 
 sub after_release {
@@ -212,10 +229,16 @@ Default: API Changes, Bug Fixes, Enhancements, Documentation
 The groups to add for the next release.
 
 
-= user_stash
+= C<user_stash>
 Default: C<%User>
 
 The name of the stash where the user's name and email can be found.
+
+
+= C<auto_order>
+Default: C<0>
+
+If true, the groups are ordered alphabetically. If false, the groups are ordered in the order they are given to C<groups>.
 
 =end :list
 

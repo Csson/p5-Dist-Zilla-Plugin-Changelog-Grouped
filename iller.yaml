@@ -29,6 +29,7 @@ prereqs:
       - DateTime: 1.05
       - String::Formatter: 0.102082
       - Safe::Isa
+      - List::Util
 
   test:
     requires:
@@ -46,3 +47,6 @@ doctype: weaver
 
 plugins:
   - +config: Author::CSSON
+
+---
+doctype: cpanfile

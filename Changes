@@ -1,8 +1,15 @@
 Revision history for Dist-Zilla-Plugin-Changelog-Grouped
 
 {{$NEXT}}
+
+ [New Feature]
+ - Added 'auto_order' attribute.
+
+ [Bug Fixes]
+  - Fixed bug where %t output "\n".
+
  [Documentation]
- - Typo fix in attribute name.
+ - Fix a couple of typos in attribute names.
 
 0.0101  2016-02-08 20:51:20 UTC
  [Breaking Changes]

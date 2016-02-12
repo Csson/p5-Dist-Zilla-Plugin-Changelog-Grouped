@@ -2,16 +2,16 @@
 
 Dist::Zilla::Plugin::NextRelease::Grouped - Simplify usage of a grouped changelog
 
-![Requires Perl 5.10.1+](https://img.shields.io/badge/perl-5.10.1+-brightgreen.svg) [![Travis status](https://api.travis-ci.org/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped.svg?branch=master)](https://travis-ci.org/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped) ![coverage 76.8%](https://img.shields.io/badge/coverage-76.8%-orange.svg)
+![Requires Perl 5.10.1+](https://img.shields.io/badge/perl-5.10.1+-brightgreen.svg) [![Travis status](https://api.travis-ci.org/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped.svg?branch=master)](https://travis-ci.org/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped) ![coverage 79.3%](https://img.shields.io/badge/coverage-79.3%-orange.svg)
 
 # VERSION
 
-Version 0.0101, released 2016-02-08.
+Version 0.0102, released 2016-02-12.
 
 # SYNOPSIS
 
     [NextRelease::Grouped]
-    change_file = Changelog
+    filename = Changelog
     groups = Bug Fixes, Breaking Changes, Enhancements
     format_note = Released by %P
 
@@ -24,7 +24,7 @@ This plugin does two things:
 
 # ATTRIBUTES
 
-- `file_name`
+- `filename`
 
     Default: `Changes`
 
@@ -52,11 +52,17 @@ This plugin does two things:
 
     The groups to add for the next release.
 
-- user\_stash
+- `user_stash`
 
     Default: `%User`
 
     The name of the stash where the user's name and email can be found.
+
+- `auto_order`
+
+    Default: `0`
+
+    If true, the groups are ordered alphabetically. If false, the groups are ordered in the order they are given to `groups`.
 
 # ACKNOWLEDGMENTS
 

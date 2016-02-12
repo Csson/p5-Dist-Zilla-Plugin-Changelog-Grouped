@@ -32,8 +32,9 @@ $SIG{'__WARN__'} = sub {
 }
 
 subtest simple => sub {
-    my $changes = changer('Documentation', 'A change');
-    my $ini = make_ini({ groups => 'Api, Documentation, Empty' });
+    my $changes = changer({ Empty => [] }, { 'Documentation' => ['A change']});
+
+    my $ini = make_ini({ groups => 'Api, Empty, Documentation', auto_order => 1 });
     my $tzil = make_tzil($ini, $changes);
 
     $tzil->chrome->logger->set_debug(1);
@@ -41,10 +42,34 @@ subtest simple => sub {
 
     common_tests($tzil);
 };
+subtest auto_order => sub {
+    my $changes = changer({ Empty => [] }, { 'Documentation' => ['A change']}, { 'Api' => ['Added some api']});
+
+    my $ini = make_ini({ groups => 'Api, Empty, Documentation', auto_order => 1 });
+    my $tzil = make_tzil($ini, $changes);
+
+    $tzil->chrome->logger->set_debug(1);
+    $tzil->release;
+
+    common_tests($tzil);
+    like $tzil->slurp_file('build/Changes'), qr{\[Api\].*\[Documentation\]}ms, 'Auto ordered';
+};
+subtest auto_order_off => sub {
+    my $changes = changer({ Empty => [] }, { 'Documentation' => ['A change']}, { 'Api' => ['Added some api']}, { 'Custom Group' => ['Custom, with a change']});
+
+    my $ini = make_ini({ groups => 'Api, Empty, Documentation' });
+    my $tzil = make_tzil($ini, $changes);
+
+    $tzil->chrome->logger->set_debug(1);
+    $tzil->release;
+
+    common_tests($tzil);
+    like $tzil->slurp_file('build/Changes'), qr{\[Custom Group\].*\[Documentation\].*\[Api\]}ms, 'Ordered as given, with custom group first';
+};
 
 subtest trial => sub {
-    my $changes = changer('Documentation', 'A change');
-    my $ini = make_ini({ groups => 'Api, Documentation, Empty', format_note => '%{THIS IS TRIAL}T' });
+    my $changes = changer({ 'Documentation' => ['A change']});
+    my $ini = make_ini({ groups => 'Api, Empty, Documentation', format_note => '%{THIS IS TRIAL}T', auto_order => 0 });
     local $ENV{'TRIAL'} = 1;
     my $tzil = make_tzil($ini, $changes);
 
@@ -56,7 +81,7 @@ subtest trial => sub {
 };
 
 subtest pause_user => sub {
-    my $changes = changer('Documentation', 'A change');
+    my $changes = changer({ 'Documentation' => ['A change']});
     my $ini = make_ini(
         { groups => 'Api, Documentation, Empty', format_note => 'released by %P', format_date => '%{yyyy-MM-dd HH:mm:ss VVV}d' },
         [ '%PAUSE' => { username => 'SOMEONESNAME', password => 'obladi'} ],
@@ -111,17 +136,20 @@ sub make_tzil {
 }
 
 sub changer {
-    my $group = shift;
-    my $change = shift;
+
+    my $added_groups = cushion 0, 0, join ("\n\n" => map {
+        my $data = $_;
+        my $group = (keys %{ $data })[0];
+        my @changes = @{ $data->{ $group } };
+
+        join "\n" => (" [$group]", @changes);
+    } @_);
 
     return cushion 0, 1, qqi{
         Revision history for {{@{[ '$dist->name' ]}}}
 
         {{@{['$NEXT']}}}
-         [$group]
-         - $change
-
-         [Empty]
+        $added_groups
 
         0.0001  1999-02-04T10:42:19Z UTC
          - First release

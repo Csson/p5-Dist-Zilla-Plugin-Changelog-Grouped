@@ -4,7 +4,7 @@
       "Erik Carlsson <info@code301.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 5.044, Dist::Iller version 0.1402, CPAN::Meta::Converter version 2.143240",
+   "generated_by" : "Dist::Zilla version 5.043, Dist::Iller version 0.1404, CPAN::Meta::Converter version 2.143240",
    "license" : [
       "perl_5"
    ],
@@ -31,8 +31,8 @@
       },
       "develop" : {
          "requires" : {
-            "Dist::Iller" : "0.1402",
-            "Dist::Iller::Config::Author::CSSON" : "0.0302",
+            "Dist::Iller" : "0.1404",
+            "Dist::Iller::Config::Author::CSSON" : "0.0304",
             "Dist::Zilla::Plugin::BumpVersionAfterRelease::Transitional" : "0",
             "Dist::Zilla::Plugin::CheckChangesHasContent" : "0",
             "Dist::Zilla::Plugin::Clean" : "0",
@@ -56,13 +56,12 @@
             "Dist::Zilla::Plugin::MetaProvides::Class" : "0",
             "Dist::Zilla::Plugin::MetaProvides::Package" : "0",
             "Dist::Zilla::Plugin::MetaYAML" : "0",
-            "Dist::Zilla::Plugin::NextRelease" : "0",
+            "Dist::Zilla::Plugin::NextRelease::Grouped" : "0",
             "Dist::Zilla::Plugin::PodSyntaxTests" : "0",
             "Dist::Zilla::Plugin::PodWeaver" : "0",
             "Dist::Zilla::Plugin::PodnameFromClassname" : "0",
             "Dist::Zilla::Plugin::Prereqs" : "0",
             "Dist::Zilla::Plugin::Prereqs::Plugins" : "0",
-            "Dist::Zilla::Plugin::PreviousVersion::Changelog" : "0",
             "Dist::Zilla::Plugin::Readme" : "0",
             "Dist::Zilla::Plugin::ReadmeAnyFromPod" : "0",
             "Dist::Zilla::Plugin::RewriteVersion::Transitional" : "0",
@@ -108,6 +107,7 @@
             "Dist::Zilla::Role::FileMunger" : "5.000",
             "Dist::Zilla::Role::Plugin" : "5.000",
             "Dist::Zilla::Stash::User" : "5.000",
+            "List::Util" : "0",
             "Moose" : "2.1400",
             "MooseX::AttributeShortcuts" : "0",
             "Path::Tiny" : "0",
@@ -139,7 +139,7 @@
    "provides" : {
       "Dist::Zilla::Plugin::NextRelease::Grouped" : {
          "file" : "lib/Dist/Zilla/Plugin/NextRelease/Grouped.pm",
-         "version" : "0.0101"
+         "version" : "0.0102"
       }
    },
    "release_status" : "stable",
@@ -154,6 +154,6 @@
          "web" : "https://github.com/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped"
       }
    },
-   "version" : "0.0101"
+   "version" : "0.0102"
 }
 
