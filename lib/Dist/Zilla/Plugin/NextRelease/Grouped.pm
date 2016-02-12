@@ -5,7 +5,7 @@ use warnings;
 package Dist::Zilla::Plugin::NextRelease::Grouped;
 
 # ABSTRACT: Simplify usage of a grouped changelog
-our $VERSION = '0.0102';
+our $VERSION = '0.0103';
 
 use Moose;
 use MooseX::AttributeShortcuts;
