@@ -2,11 +2,11 @@
 
 Dist::Zilla::Plugin::NextRelease::Grouped - Simplify usage of a grouped changelog
 
-![Requires Perl 5.10.1+](https://img.shields.io/badge/perl-5.10.1+-brightgreen.svg) [![Travis status](https://api.travis-ci.org/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped.svg?branch=master)](https://travis-ci.org/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped) ![coverage 79.3%](https://img.shields.io/badge/coverage-79.3%-orange.svg)
+![Requires Perl 5.10.1+](https://img.shields.io/badge/perl-5.10.1+-brightgreen.svg) [![Travis status](https://api.travis-ci.org/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped.svg?branch=master)](https://travis-ci.org/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped) 
 
 # VERSION
 
-Version 0.0102, released 2016-02-12.
+Version 0.0103, released 2016-02-14.
 
 # SYNOPSIS
 
@@ -60,9 +60,12 @@ This plugin does two things:
 
 - `auto_order`
 
-    Default: `0`
+    Default: `1`
 
     If true, the groups are ordered alphabetically. If false, the groups are ordered in the order they are given to `groups`.
+
+    Note: If it is false, it also munges the changelog to ensure that one-off groups aren't deleted (while empty groups are). This might be
+    a source of bugs.
 
 # ACKNOWLEDGMENTS
 

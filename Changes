@@ -1,9 +1,11 @@
 Revision history for Dist-Zilla-Plugin-Changelog-Grouped
 
 {{$NEXT}}
- [API Changes]
+ [Breaking Changes]
+  - auto_order now defaults to true, due to the changelog munging that happens if it is false.
 
  [Bug Fixes]
+ - Fixed a bug where groups in earlier releases were completely removed.
 
  [Dependency Changes]
 

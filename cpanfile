@@ -1,4 +1,4 @@
-# This file was auto-generated from iller.yaml by Dist::Iller on 2016-02-12 01:32:42 UTC.
+# This file was auto-generated from iller.yaml by Dist::Iller on 2016-02-14 16:43:07 UTC.
 
 on runtime => sub {
     requires 'CPAN::Changes' => '0.400002';
@@ -36,9 +36,10 @@ on configure => sub {
     requires 'ExtUtils::MakeMaker' => '0';
 };
 on develop => sub {
-    requires 'Dist::Iller' => '0.1404';
+    requires 'Dist::Iller' => '0.1405';
     requires 'Dist::Iller::Config::Author::CSSON' => '0.0304';
     requires 'Dist::Zilla::Plugin::BumpVersionAfterRelease::Transitional' => '0';
+    requires 'Dist::Zilla::Plugin::ChangeStats::Git' => 'v0.5.0';
     requires 'Dist::Zilla::Plugin::CheckChangesHasContent' => '0';
     requires 'Dist::Zilla::Plugin::Clean' => '0';
     requires 'Dist::Zilla::Plugin::ConfirmRelease' => '0';
@@ -46,6 +47,8 @@ on develop => sub {
     requires 'Dist::Zilla::Plugin::DistIller::MetaGeneratedBy' => '0';
     requires 'Dist::Zilla::Plugin::ExecDir' => '0';
     requires 'Dist::Zilla::Plugin::Git::Check' => '0';
+    requires 'Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch' => '0.013';
+    requires 'Dist::Zilla::Plugin::Git::Commit' => '0';
     requires 'Dist::Zilla::Plugin::Git::Contributors' => '0';
     requires 'Dist::Zilla::Plugin::Git::GatherDir' => '0';
     requires 'Dist::Zilla::Plugin::Git::Push' => '0';
