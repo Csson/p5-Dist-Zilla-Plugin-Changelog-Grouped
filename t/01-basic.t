@@ -34,29 +34,6 @@ $SIG{'__WARN__'} = sub {
 subtest simple => sub {
     my $changes = changer({ Empty => [] }, { 'Documentation' => ['A change']});
 
-    my $ini = make_ini({ groups => 'Api, Empty, Documentation', auto_order => 1 });
-    my $tzil = make_tzil($ini, $changes);
-
-    $tzil->chrome->logger->set_debug(1);
-    $tzil->release;
-
-    common_tests($tzil);
-};
-subtest auto_order => sub {
-    my $changes = changer({ Empty => [] }, { 'Documentation' => ['A change']}, { 'Api' => ['Added some api']});
-
-    my $ini = make_ini({ groups => 'Api, Empty, Documentation', auto_order => 1 });
-    my $tzil = make_tzil($ini, $changes);
-
-    $tzil->chrome->logger->set_debug(1);
-    $tzil->release;
-
-    common_tests($tzil);
-    like $tzil->slurp_file('build/Changes'), qr{\[Api\].*\[Documentation\]}ms, 'Auto ordered';
-};
-subtest auto_order_off => sub {
-    my $changes = changer({ Empty => [] }, { 'Documentation' => ['A change']}, { 'Api' => ['Added some api']}, { 'Custom Group' => ['Custom, with a change']});
-
     my $ini = make_ini({ groups => 'Api, Empty, Documentation' });
     my $tzil = make_tzil($ini, $changes);
 
@@ -64,6 +41,33 @@ subtest auto_order_off => sub {
     $tzil->release;
 
     common_tests($tzil);
+    like $tzil->slurp_file('source/Changes'), qr{\{\{\$NEXT\}\}[\r\n]\s+\[Api\][\n\r\s]+\[Documentation\]}ms, 'Change groups generated';
+    warn '-' x 75;
+};
+subtest auto_order => sub {
+    my $changes = changer({ Empty => [] }, { 'Documentation' => ['A change']}, { 'Api' => ['Added some api']});
+
+    my $ini = make_ini({ groups => 'Documentation, Api, Empty', auto_order => 1 });
+    my $tzil = make_tzil($ini, $changes);
+
+    $tzil->chrome->logger->set_debug(1);
+    $tzil->release;
+
+    common_tests($tzil);
+    like $tzil->slurp_file('source/Changes'), qr{\{\{\$NEXT\}\}[\r\n]\s+\[Api\][\n\r\s]+\[Documentation\]}ms, 'Change groups generated';
+    like $tzil->slurp_file('build/Changes'), qr{\[Api\].*\[Documentation\]}ms, 'Auto ordered';
+};
+subtest auto_order_off => sub {
+    my $changes = changer({ Empty => [] }, { 'Documentation' => ['A change']}, { 'Api' => ['Added some api']}, { 'Custom Group' => ['Custom, with a change']});
+
+    my $ini = make_ini({ groups => 'Empty, Documentation, Api', auto_order => 0 });
+    my $tzil = make_tzil($ini, $changes);
+
+    $tzil->chrome->logger->set_debug(1);
+    $tzil->release;
+
+    common_tests($tzil);
+    like $tzil->slurp_file('source/Changes'), qr{\{\{\$NEXT\}\}[\r\n]\s+\[Api\][\n\r\s]+\[Documentation\]}ms, 'Change groups generated';
     like $tzil->slurp_file('build/Changes'), qr{\[Custom Group\].*\[Documentation\].*\[Api\]}ms, 'Ordered as given, with custom group first';
 };
 
@@ -77,13 +81,14 @@ subtest trial => sub {
     $tzil->release;
 
     common_tests($tzil);
+    like $tzil->slurp_file('source/Changes'), qr{\{\{\$NEXT\}\}[\r\n]\s+\[Api\][\n\r\s]+\[Documentation\]}ms, 'Change groups generated';
     like $tzil->slurp_file('build/Changes'), qr{THIS IS TRIAL}, 'Trial release';
 };
 
 subtest pause_user => sub {
     my $changes = changer({ 'Documentation' => ['A change']});
     my $ini = make_ini(
-        { groups => 'Api, Documentation, Empty', format_note => 'released by %P', format_date => '%{yyyy-MM-dd HH:mm:ss VVV}d' },
+        { groups => 'Api, Documentation, Empty', format_note => 'released by %P', format_date => '%{yyyy-MM-dd HH:mm:ss VVV}d', auto_order => 0 },
         [ '%PAUSE' => { username => 'SOMEONESNAME', password => 'obladi'} ],
     );
     my $tzil = make_tzil($ini, $changes);
@@ -92,6 +97,7 @@ subtest pause_user => sub {
     $tzil->release;
 
     common_tests($tzil);
+    like $tzil->slurp_file('source/Changes'), qr{\{\{\$NEXT\}\}[\r\n]\s+\[Api\][\n\r\s]+\[Documentation\]}ms, 'Change groups generated';
     like $tzil->slurp_file('source/Changes'), qr{released by SOMEONESNAME}, 'Pause user in source Changes';
     like $tzil->slurp_file('build/Changes'), qr{released by SOMEONESNAME}, 'Pause user in build Changes';
 };
@@ -103,7 +109,6 @@ sub common_tests {
     like $tzil->slurp_file('source/lib/DZT/NextReleaseGrouped.pm'), qr{0\.0003}, 'Version changed in .pm';
     like $tzil->slurp_file('build/Changes'), qr{0\.0002}, 'Version change in built Changes';
     like $tzil->slurp_file('source/Changes'), qr{0\.0002}, 'Version change in source Changes';
-    like $tzil->slurp_file('source/Changes'), qr{\{\{\$NEXT\}\}[\r\n]\s+\[Api\][\n\r\s]+\[Documentation\]}ms, 'Change groups generated';
     unlike $tzil->slurp_file('build/Changes'), qr{\[Empty\]}, 'Empty groups removed in built Changes';
 }
 

@@ -97,7 +97,7 @@ has groups => (
 has auto_order => (
     is => 'ro',
     isa => Bool,
-    default => 0,
+    default => 1,
 );
 
 has _changes_after_munging => (
@@ -139,14 +139,50 @@ sub munge_files {
 
     my $sort_groups = sub {
         my @custom_groups = grep { my $group = $_; none { $group eq $_ } $self->all_groups } @_;
-
-        return  map  { $_->name             }
-                grep { !$_->is_empty        }
-                map  { $next->get_group($_) }
-                @custom_groups, $self->all_groups;
+        my @sorted = ((sort { $a cmp $b } @custom_groups), $self->all_groups);
+        return @sorted;
     };
 
     my $content = $self->auto_order ? $changes->serialize : $changes->serialize(group_sort => $sort_groups);
+
+    # hack to remove empty groups
+    if(!$self->auto_order) {
+
+        # followed by another group
+        $content =~ s{
+            (?<= [\n\r] )
+              [\s\t]+ \[ [^\]]+ \] [\s\t]*
+              [\n\r]+
+            (?= [\s\t]+ \[ [^\]]+ \] )
+            }{\n}xmsg;
+
+        # followed by a release
+        $content =~ s{
+            (?<=[\n\r])
+            [\s\t]+ \[ [^\]]+ \] [\s\t]*
+            [\n\r]+
+            (?=[v\d])
+            }{\n}xmsg;
+
+        # followed by end-of-file
+        $content =~ s{
+            (?<= [\n\r])
+            [\s\t]+ \[ [^\]]+ \] [\s\t]*
+            [\n\r]*
+            \z
+            }{\n}xmsg;
+
+        # just one final \n
+        $content =~ s{\n+\z}{\n}ms;
+
+        # cleanup whitespace
+        $content =~ s{\r}{}g;
+        $content =~ s{\n{3,}}{\n\n}g;
+
+        # ensure that a release header (any line starting with \d or 'v') isn't followed by an empty line.
+        $content =~ s{(\n [v\d] [^\n]+) \n{2,} (?=[\s\t]) }{$1\n}msgx;
+    }
+
     $file->content($content);
     $self->_changes_after_munging($content);
 }
@@ -236,9 +272,12 @@ The name of the stash where the user's name and email can be found.
 
 
 = C<auto_order>
-Default: C<0>
+Default: C<1>
 
 If true, the groups are ordered alphabetically. If false, the groups are ordered in the order they are given to C<groups>.
+
+Note: If it is false, it also munges the changelog to ensure that one-off groups aren't deleted (while empty groups are). This might be
+a source of bugs.
 
 =end :list
 

@@ -4,7 +4,7 @@
       "Erik Carlsson <info@code301.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 5.043, Dist::Iller version 0.1404, CPAN::Meta::Converter version 2.143240",
+   "generated_by" : "Dist::Zilla version 5.043, Dist::Iller version 0.1405, CPAN::Meta::Converter version 2.143240",
    "license" : [
       "perl_5"
    ],
@@ -31,9 +31,11 @@
       },
       "develop" : {
          "requires" : {
-            "Dist::Iller" : "0.1404",
+            "Dist::Iller" : "0.1405",
             "Dist::Iller::Config::Author::CSSON" : "0.0304",
             "Dist::Zilla::Plugin::BumpVersionAfterRelease::Transitional" : "0",
+            "Dist::Zilla::Plugin::ChangeStats::Dependencies::Git" : "0",
+            "Dist::Zilla::Plugin::ChangeStats::Git" : "v0.5.0",
             "Dist::Zilla::Plugin::CheckChangesHasContent" : "0",
             "Dist::Zilla::Plugin::Clean" : "0",
             "Dist::Zilla::Plugin::ConfirmRelease" : "0",
@@ -41,6 +43,8 @@
             "Dist::Zilla::Plugin::DistIller::MetaGeneratedBy" : "0",
             "Dist::Zilla::Plugin::ExecDir" : "0",
             "Dist::Zilla::Plugin::Git::Check" : "0",
+            "Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch" : "0.013",
+            "Dist::Zilla::Plugin::Git::Commit" : "0",
             "Dist::Zilla::Plugin::Git::Contributors" : "0",
             "Dist::Zilla::Plugin::Git::GatherDir" : "0",
             "Dist::Zilla::Plugin::Git::Push" : "0",
@@ -139,7 +143,7 @@
    "provides" : {
       "Dist::Zilla::Plugin::NextRelease::Grouped" : {
          "file" : "lib/Dist/Zilla/Plugin/NextRelease/Grouped.pm",
-         "version" : "0.0102"
+         "version" : "0.0103"
       }
    },
    "release_status" : "stable",
@@ -154,6 +158,6 @@
          "web" : "https://github.com/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped"
       }
    },
-   "version" : "0.0102"
+   "version" : "0.0103"
 }
 
