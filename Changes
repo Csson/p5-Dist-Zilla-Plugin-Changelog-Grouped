@@ -1,13 +1,9 @@
 Revision history for Dist-Zilla-Plugin-Changelog-Grouped
 
 {{$NEXT}}
- [Breaking Changes]
-  - auto_order now defaults to true, due to the changelog munging that happens if it is false.
+ [API Changes]
 
  [Bug Fixes]
- - Fixed a bug where groups in earlier releases were completely removed.
-
- [Dependency Changes]
 
  [Documentation]
 
@@ -19,7 +15,25 @@ Revision history for Dist-Zilla-Plugin-Changelog-Grouped
 
  [Requirements]
 
+ [Stats & Dependency Changes]
+
  [Testing]
+
+0.0200 2016-02-15T12:17:23Z UTC
+ [Breaking Changes]
+ - auto_order now defaults to true, due to the changelog munging that
+   happens if it is false.
+
+ [Bug Fixes]
+ - Fixed a bug where groups in earlier releases were completely removed.
+
+ [Stats & Dependency Changes]
+ - 4 files changed, 65 insertions(+), 20 deletions(-)
+ - (run req) ~ perl 5.010001 --> 5.010000
+ - (dev req) + Dist::Zilla::Plugin::ChangeStats::Dependencies::Git (any)
+ - (dev req) + Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch 0.013
+ - (dev req) + Dist::Zilla::Plugin::Git::Commit (any)
+ - (dev req) ~ Dist::Iller 0.1404 --> 0.1405
 
 0.0102 2016-02-12T01:41:47Z UTC
  [Bug Fixes]

@@ -6,7 +6,7 @@ Dist::Zilla::Plugin::NextRelease::Grouped - Simplify usage of a grouped changelo
 
 # VERSION
 
-Version 0.0103, released 2016-02-15.
+Version 0.0200, released 2016-02-15.
 
 # SYNOPSIS
 

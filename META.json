@@ -142,7 +142,7 @@
    "provides" : {
       "Dist::Zilla::Plugin::NextRelease::Grouped" : {
          "file" : "lib/Dist/Zilla/Plugin/NextRelease/Grouped.pm",
-         "version" : "0.0103"
+         "version" : "0.0200"
       }
    },
    "release_status" : "stable",
@@ -157,6 +157,6 @@
          "web" : "https://github.com/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped"
       }
    },
-   "version" : "0.0103"
+   "version" : "0.0200"
 }
 
