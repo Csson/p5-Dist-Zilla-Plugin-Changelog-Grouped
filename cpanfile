@@ -1,4 +1,4 @@
-# This file was auto-generated from iller.yaml by Dist::Iller on 2016-02-14 21:24:12 UTC.
+# This file was auto-generated from iller.yaml by Dist::Iller on 2016-02-15 12:13:18 UTC.
 
 on runtime => sub {
     requires 'CPAN::Changes' => '0.400002';
@@ -15,7 +15,7 @@ on runtime => sub {
     requires 'String::Formatter' => '0.102082';
     requires 'Types::Standard' => '1.000000';
     requires 'namespace::autoclean' => '0.16';
-    requires 'perl' => '5.010001';
+    requires 'perl' => '5.010000';
 };
 on test => sub {
     requires 'Dist::Zilla::Plugin::RewriteVersion' => '0';

@@ -118,7 +118,7 @@
             "String::Formatter" : "0.102082",
             "Types::Standard" : "1.000000",
             "namespace::autoclean" : "0.16",
-            "perl" : "5.010001"
+            "perl" : "5.010000"
          }
       },
       "test" : {

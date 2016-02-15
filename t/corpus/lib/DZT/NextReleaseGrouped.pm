@@ -1,10 +1,10 @@
-use 5.10.1;
+use 5.10.0;
 use strict;
 use warnings;
 
 package DZT::NextReleaseGrouped;
 
-our $VERSION = '0.0002';
+our $VERSION = '0.0103';
 
 sub returner { @_ }
 

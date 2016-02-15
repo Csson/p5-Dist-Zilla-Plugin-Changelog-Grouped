@@ -42,7 +42,7 @@ subtest simple => sub {
 
     common_tests($tzil);
     like $tzil->slurp_file('source/Changes'), qr{\{\{\$NEXT\}\}[\r\n]\s+\[Api\][\n\r\s]+\[Documentation\]}ms, 'Change groups generated';
-    warn '-' x 75;
+
 };
 subtest auto_order => sub {
     my $changes = changer({ Empty => [] }, { 'Documentation' => ['A change']}, { 'Api' => ['Added some api']});
@@ -106,9 +106,10 @@ done_testing;
 
 sub common_tests {
     my $tzil = shift;
-    like $tzil->slurp_file('source/lib/DZT/NextReleaseGrouped.pm'), qr{0\.0003}, 'Version changed in .pm';
-    like $tzil->slurp_file('build/Changes'), qr{0\.0002}, 'Version change in built Changes';
-    like $tzil->slurp_file('source/Changes'), qr{0\.0002}, 'Version change in source Changes';
+    my $version = $tzil->version;
+    unlike $tzil->slurp_file('source/lib/DZT/NextReleaseGrouped.pm'), qr{$version}, 'Version changed in .pm';
+    like $tzil->slurp_file('build/Changes'), qr{$version}, 'Version change in built Changes';
+    like $tzil->slurp_file('source/Changes'), qr{$version}, 'Version change in source Changes';
     unlike $tzil->slurp_file('build/Changes'), qr{\[Empty\]}, 'Empty groups removed in built Changes';
 }
 
