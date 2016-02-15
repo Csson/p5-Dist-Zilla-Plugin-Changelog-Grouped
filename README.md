@@ -2,11 +2,11 @@
 
 Dist::Zilla::Plugin::NextRelease::Grouped - Simplify usage of a grouped changelog
 
-![Requires Perl 5.10.1+](https://img.shields.io/badge/perl-5.10.1+-brightgreen.svg) [![Travis status](https://api.travis-ci.org/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped.svg?branch=master)](https://travis-ci.org/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped) 
+![Requires Perl 5.10.1+](https://img.shields.io/badge/perl-5.10.1+-brightgreen.svg) [![Travis status](https://api.travis-ci.org/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped.svg?branch=master)](https://travis-ci.org/Csson/p5-Dist-Zilla-Plugin-NextRelease-Grouped) ![coverage 79.9%](https://img.shields.io/badge/coverage-79.9%-orange.svg)
 
 # VERSION
 
-Version 0.0103, released 2016-02-14.
+Version 0.0103, released 2016-02-15.
 
 # SYNOPSIS
 
